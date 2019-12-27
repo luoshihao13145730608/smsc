@@ -1,19 +1,14 @@
 <template>
-  <div id="homes">
-    <Dropdown trigger="click">
-      <a href="javascript:void(0)">
-        {{xtypeList.categorycname}}
+  <div id="Dropdown">
+    <Dropdown trigger="click" style="margin-left: 20px">
+      <Button type="primary">
+        {{title}}
         <Icon type="ios-arrow-down"></Icon>
-      </a>
+      </Button>
       <DropdownMenu slot="list">
-        <DropdownItem>驴打滚</DropdownItem>
-        <DropdownItem>炸酱面</DropdownItem>
-        <DropdownItem disabled>豆汁儿</DropdownItem>
-        <DropdownItem>冰糖葫芦</DropdownItem>
-        <DropdownItem divided>北京烤鸭</DropdownItem>
+        <DropdownItem v-for="u in List">{{u.categorycname}}</DropdownItem>
       </DropdownMenu>
     </Dropdown>
-
   </div>
 </template>
 
@@ -21,28 +16,21 @@
 
 export default {
   name: 'typeController',
-  props: ['xtypeList'],
+  props: ['List', 'title', 'id'],
   data () {
     return {
     }
   },
   mounted () {
-    // this.init()
   },
   methods: {
-    // init () {
-    //   this.getxtypeList()
-    // },
-    // getxtypeList () {
-    //   this.$api.sys.getList().then(res => {
-    //     if (res) {
-    //       this.xtypeList = res
-    //     }
-    //   })
-    // }
+    
   }
 }
 </script>
 
 <style scoped>
+#Dropdown{
+  display:inline-block;
+}
 </style>

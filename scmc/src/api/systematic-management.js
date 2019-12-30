@@ -1,4 +1,4 @@
-import { postRequest, postFormRequest } from '@/libs/api.request'
+import { postRequest, postFormRequest, getRequest } from '@/libs/api.request'
 export default {
   /**
    * 分类查询
@@ -13,5 +13,8 @@ export default {
   },
   addtype: (param) => {
     return postRequest('/api/category/json/addtype', param)
+  },
+  deletetype: (param) => {
+    return getRequest('/api/category/json/removeCategory?cid=', param)
   }
 }

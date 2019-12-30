@@ -1,9 +1,12 @@
 <template>
   <div id="homes">
-    <DropdownMenus :List="this.xtypeList[0].children" :title="this.xtypeList[0].categorycname"
-      :id='this.xtypeList[0].categoryid'></DropdownMenus>
-    <DropdownMenus :List="this.ctypeList[0].children" :title="this.ctypeList[0].categorycname"
-      :id='this.ctypeList[0].categoryid'></DropdownMenus>
+    <DropdownMenus @getcateData="getcateData" :List="this.xtypeList[0].children"
+      :title="this.xtypeList[0].categorycname" :id='this.xtypeList[0].categoryid'></DropdownMenus>
+    <DropdownMenus @getcateData="getcateData" :List="this.ctypeList[0].children"
+      :title="this.ctypeList[0].categorycname" :id='this.ctypeList[0].categoryid'></DropdownMenus>
+    <Input v-model="this.showcategoryname" placeholder="请输入内容" clearable style="width: 200px;margin-left:20px" />
+    &nbsp;<Button type="primary" v-on:click="update">修改</Button>&nbsp;<Button type="primary"
+      v-on:click="deletes">删除</Button>
     <div class="content">
       <form>
         <table>
@@ -21,7 +24,7 @@
           <tr>
             <td class="tips">添加类型:</td>
             <td>
-              <Input v-model="categoryname" placeholder="请输入内容" clearable style="width: 200px" />
+              <Input v-model="this.categoryname" placeholder="请输入内容" clearable style="width: 200px" />
             </td>
           </tr>
           <tr>
@@ -60,7 +63,8 @@ export default {
       value: {
         'categorycname': null,
         'pid': null
-      }
+      },
+      showcategoryname: null
     }
   },
   mounted () {
@@ -99,6 +103,8 @@ export default {
     submit () { // 点击添加分类信息
       this.value.categorycname = this.categoryname
       this.value.pid = this.pid
+      alert(this.value.categorycname)
+      alert(this.value.pid)
       this.$api.sys.addtype(this.value).then(res => {
         if (res) {
           if (res.ok === 1) {
@@ -108,6 +114,34 @@ export default {
           }
         }
       })
+    },
+    getcateData: function (name, ids) {
+      this.categoryid = name
+      this.pid = ids
+      if (this.pid == 1) {
+        this.xtypeList[0].children.map((item, index, ary) => {
+          if (this.xtypeList[0].children[index].categoryid == name) {
+            this.showcategoryname = this.xtypeList[0].children[index].categorycname
+          }
+        })
+      } else {
+        this.ctypeList[0].children.map((item, index, ary) => {
+          if (this.ctypeList[0].children[index].categoryid == name) {
+            this.showcategoryname = this.ctypeList[0].children[index].categorycname
+          }
+        })
+      }
+    },
+    deletes () {
+      this.$api.sys.deletetype(1).then(res => { // 读取新鲜菜品
+        if (res) {
+          // console.log(res)
+          alert(res)
+        }
+      })
+    },
+    update () {
+
     }
   }
 }

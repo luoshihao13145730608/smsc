@@ -14,12 +14,28 @@ import { getRequest, postRequest, uploadFileRequest, downloadRequest } from '@/l
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import { closeCurrentTag, util } from '@/libs/util'
+import moment from 'moment'
 // 实际打包时应该不引入mock
 /* eslint-disable */
 // if (process.env.NODE_ENV !== 'production') require('@/mock')
 
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
+})
+Vue.filter('dateFmt', (input, formatString = "YYYY-MM-DD") => {
+
+  //es5函数参数设置默认值
+
+  //const lastFormatString = formatString || ''
+
+
+
+  // moment(input) 把时间字符串转成时间对象
+
+  // format(formatString) 把时间对象，按照指定格式，格式化成符合条件的字符串
+
+  return moment(input).format(formatString)
+
 })
 
 /**

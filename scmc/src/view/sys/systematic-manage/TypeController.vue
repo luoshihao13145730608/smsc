@@ -4,7 +4,7 @@
       :title="this.xtypeList[0].categorycname" :id='this.xtypeList[0].categoryid'></DropdownMenus>
     <DropdownMenus @getcateData="getcateData" :List="this.ctypeList[0].children"
       :title="this.ctypeList[0].categorycname" :id='this.ctypeList[0].categoryid'></DropdownMenus>
-    <Input v-model="this.showcategoryname" placeholder="请输入内容" clearable style="width: 200px;margin-left:20px" />
+    <Input v-model="showcategoryname" placeholder="请输入内容" clearable style="width: 200px;margin-left:20px" />
     &nbsp;<Button type="primary" v-on:click="update">修改</Button>&nbsp;<Button type="primary"
       v-on:click="deletes">删除</Button>
     <div class="content">
@@ -18,13 +18,13 @@
           <tr>
             <td class="tips">选择父分类:</td>
             <td>
-              <DropdownSelect v-model="pid" :staticList='this.staticList' />
+              <DropdownSelect v-model="pid" :staticList='this.staticList' :size='200' />
             </td>
           </tr>
           <tr>
             <td class="tips">添加类型:</td>
             <td>
-              <Input v-model="this.categoryname" placeholder="请输入内容" clearable style="width: 200px" />
+              <Input v-model="categoryname" placeholder="请输入内容" clearable style="width: 200px" />
             </td>
           </tr>
           <tr>
@@ -103,12 +103,12 @@ export default {
     submit () { // 点击添加分类信息
       this.value.categorycname = this.categoryname
       this.value.pid = this.pid
-      alert(this.value.categorycname)
-      alert(this.value.pid)
       this.$api.sys.addtype(this.value).then(res => {
         if (res) {
           if (res.ok === 1) {
             alert('添加成功')
+            this.getctypeList()
+            this.getxtypeList()
           } else if (res.ok === -1) {
             alert('添加失败，已经存在该分类')
           }
@@ -133,15 +133,34 @@ export default {
       }
     },
     deletes () {
-      this.$api.sys.deletetype(1).then(res => { // 读取新鲜菜品
+      this.$api.sys.deletetype({ cid: this.categoryid }).then(res => { // 删除
         if (res) {
-          // console.log(res)
-          alert(res)
+          if (res.code === 200) {
+            alert('删除成功')
+          } else if (res.code === 500) {
+            alert('该分类暂时无法删除')
+          }
         }
+        this.getctypeList()
+        this.getxtypeList()
       })
     },
     update () {
-
+      let category = {
+        categoryid: this.categoryid,
+        categorycname: this.showcategoryname
+      }
+      this.$api.sys.updatetype(category).then(res => {
+        if (res) {
+          if (res.code === 200) {
+            alert('修改完成')
+          } else if (res.code === 500) {
+            alert('该分类暂时无法修改')
+          }
+        }
+        this.getctypeList()
+        this.getxtypeList()
+      })
     }
   }
 }

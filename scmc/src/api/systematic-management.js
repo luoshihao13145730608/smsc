@@ -15,6 +15,9 @@ export default {
     return postRequest('/api/category/json/addtype', param)
   },
   deletetype: (param) => {
-    return getRequest('/api/category/json/removeCategory?cid=', param)
+    return getRequest('/api/category/json/removeCategory', param)
+  },
+  updatetype: (param) => {
+    return postRequest('/api/category/json/updateCategoryName', param)
   }
 }

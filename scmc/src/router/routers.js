@@ -78,20 +78,40 @@ export default [
           title: '分类管理',
           notCache: true
         },
-        children: [
-          {
-            path: 'TypeController',
-            name: 'TypeController',
-            meta: {
-              icon: 'md-person',
-              title: '分类管理',
-              notCache: true
-            }
-          }
-        ],
         component: () => import('@/view/sys/systematic-manage/TypeController.vue')
       }
-
+    ]
+  },
+  {
+    path: '',
+    name: 'store-manage',
+    component: Main,
+    meta: {
+      icon: 'md-person', // 设置图标
+      title: '仓库管理',
+      access: ['ROLE_ADMIN'] // 设置权限
+    },
+    children: [
+      {
+        path: 'pickingManage',
+        name: 'pickingManage',
+        meta: {
+          icon: 'md-person',
+          title: '领料管理',
+          notCache: true
+        },
+        component: () => import('@/view/store-management/picking-manage/Zc_Picking.vue')
+      },
+      {
+        path: 'earlySetting',
+        name: 'earlySetting',
+        meta: {
+          icon: 'md-person',
+          title: '预警设置',
+          notCache: true
+        },
+        component: () => import('@/view/store-management/early-setting/Zc_Warning.vue')
+      }
     ]
   },
   {
